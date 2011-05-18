@@ -21,6 +21,15 @@
 	[colorPanel setShowsAlpha:YES];
 	[colorPanel makeKeyAndOrderFront:nil];
 	[colorPanel bind:@"floatingPanel" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.floatingPanel" options:nil];
+	//check for developer panel and if existing then select
+	for (NSToolbarItem *item in [[colorPanel toolbar] items]) {
+		NSLog(@"%@", [item itemIdentifier]);
+		if([item.itemIdentifier isEqualToString:@"com.apple.NSColorPanel.toolbarItem.DeveloperColorPicker"]){
+			[[colorPanel toolbar] setSelectedItemIdentifier:[item itemIdentifier]];
+			[NSApp sendAction:[item action] to:[item target] from:item];
+			break;
+		}
+	}
 }
 
 // Make sure app quits after panel is closed
